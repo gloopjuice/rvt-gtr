@@ -1,0 +1,85 @@
+version: '3.8'
+
+services:
+  # PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: rvtgtr-app
+    restart: unless-stopped
+    working_dir: /var/www/
+    volumes:
+      - ./backend:/var/www
+    env_file:
+      - ./backend/.env
+    environment:
+      - DB_HOST=db
+      - REDIS_HOST=redis
+    networks:
+      - rvtgtr-network
+
+  # Nginx Service
+  webserver:
+    image: nginx:alpine
+    container_name: rvtgtr-webserver
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./backend:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - rvtgtr-network
+
+  # MySQL Service
+  db:
+    image: mysql:8.0
+    container_name: rvtgtr-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+    volumes:
+      - dbdata:/var/lib/mysql/
+    networks:
+      - rvtgtr-network
+
+  # Node Service for frontend
+  node:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: rvtgtr-node
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    working_dir: /app
+    networks:
+      - rvtgtr-network
+    ports:
+      - "5173:5173"
+    depends_on:
+      - app
+
+  # Redis Service (if needed)
+  redis:
+    image: redis:alpine
+    container_name: rvtgtr-redis
+    ports:
+      - "6379:6379"
+    networks:
+      - rvtgtr-network
+
+networks:
+  rvtgtr-network:
+    driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
