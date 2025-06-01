@@ -8,14 +8,22 @@ services:
       dockerfile: Dockerfile
     container_name: rvtgtr-app
     restart: unless-stopped
-    working_dir: /var/www/
+    working_dir: /var/www
     volumes:
       - ./backend:/var/www
     env_file:
       - ./backend/.env
     environment:
       - DB_HOST=db
+      - DB_DATABASE=${DB_DATABASE:-rvtgtr}
+      - DB_USERNAME=${DB_USERNAME:-root}
+      - DB_PASSWORD=${DB_PASSWORD:-secret}
       - REDIS_HOST=redis
+      - APP_URL=http://64.227.105.115
+      - FRONTEND_URL=http://64.227.105.115:5173
+    depends_on:
+      - db
+      - redis
     networks:
       - rvtgtr-network
 

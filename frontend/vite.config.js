@@ -9,7 +9,15 @@ export default defineConfig({
       sourcemap: true
     },
     server: {
-      port: 5173,  
+      port: 5173,
+      host: '0.0.0.0',
+      hmr: {
+          host: '64.227.105.115',
+          port: 5173
+      },
+      watch: {
+          usePolling: true
+      }
     },
   plugins: [
     vue(),
