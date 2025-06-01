@@ -1,0 +1,33 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        # Set Content Security Policy header
+        Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://trusted-scripts.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';" 
+
+        # Set X-Frame-Options header
+        Header set X-Frame-Options "DENY"
+    </IfModule>
+
+    Options -MultiViews -Indexes
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://trusted-scripts.com; object-src 'none'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    <Files "sensitive_file.txt">
+        Order Allow,Deny
+        Deny from all
+    </Files>
+</IfModule>
