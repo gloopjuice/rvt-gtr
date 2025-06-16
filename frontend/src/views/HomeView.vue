@@ -85,6 +85,7 @@ export default {
   .hero {
     flex-direction: column;
     text-align: center;
+    padding: 2rem;
   }
 
   .content {
@@ -94,8 +95,10 @@ export default {
   .hero-image {
     position: static;
     transform: none;
-    max-width: 90%;
-    margin-top: 2rem;
+    width: 90%;
+    height: auto;
+    margin: 2rem auto;
+    object-fit: contain;
   }
 }
 </style>
