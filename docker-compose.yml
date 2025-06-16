@@ -5,12 +5,13 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: docker/php/Dockerfile
     container_name: rvtgtr-app
     restart: unless-stopped
     working_dir: /var/www
     volumes:
       - ./backend:/var/www
+      - ./docker/php/conf.d/uploads.ini:/usr/local/etc/php/conf.d/uploads.ini
     env_file:
       - ./backend/.env
     environment:
@@ -26,7 +27,6 @@ services:
       - redis
     networks:
       - rvtgtr-network
-
   # Nginx Service
   webserver:
     image: nginx:alpine
@@ -38,6 +38,8 @@ services:
     volumes:
       - ./backend:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - app
     networks:
       - rvtgtr-network
 
@@ -75,7 +77,7 @@ services:
     depends_on:
       - app
 
-  # Redis Service (if needed)
+  # Redis Service
   redis:
     image: redis:alpine
     container_name: rvtgtr-redis

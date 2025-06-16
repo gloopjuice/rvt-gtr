@@ -7,7 +7,9 @@ import header from './components/Header.vue'
 
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000';
+// Update this line to use your server's IP
+axios.defaults.baseURL = 'http://64.227.105.115';
+axios.defaults.withCredentials = true;  // Important for sessions/cookies
 
 const app = createApp(App)
 
