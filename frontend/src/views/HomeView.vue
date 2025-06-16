@@ -8,7 +8,8 @@
       <p class="subtitle">
         KAS JAUNS? ŠAJĀ VERSIJĀ IR JAUNI KLOĶĪŠI KO PAGROZĪT, KAS MAINA SKAŅU!
       </p>
-      <img src="/Untitled-1.png" alt="Hero Image" class="hero-image" />
+      <img src="/Untitled-1.png" alt="Hero Image" class="hero-image desktop-image" />
+      <img src="/Untitled-3.png" alt="Hero Image Mobile" class="hero-image mobile-image" />
 
       <button class="cta">Lejupielādēt</button>
     </div>
@@ -29,7 +30,7 @@ export default {
   padding: 5vh 5vw;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   position: relative;
   overflow: hidden;
   font-family: 'Segoe UI', sans-serif;
@@ -38,6 +39,9 @@ export default {
 .content {
   max-width: 50%;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .title {
@@ -45,6 +49,7 @@ export default {
   font-weight: 900;
   line-height: 1.1;
   margin-bottom: 1rem;
+  text-align: center;
 }
 
 .subtitle {
@@ -52,6 +57,7 @@ export default {
   color: #cccccc;
   margin-bottom: 2rem;
   max-width: 90%;
+  text-align: center;
 }
 
 .cta {
@@ -77,8 +83,14 @@ export default {
   top: 50%;
   transform: translateY(-50%);
   max-height: 80vh;
+  max-width: 45vw;
   z-index: 1;
   pointer-events: none;
+  object-fit: contain;
+}
+
+.mobile-image {
+  display: none;
 }
 
 @media (max-width: 768px) {
@@ -86,19 +98,42 @@ export default {
     flex-direction: column;
     text-align: center;
     padding: 2rem;
+    justify-content: flex-start;
   }
 
   .content {
     max-width: 100%;
+    padding: 1rem;
   }
 
-  .hero-image {
+  .title {
+    font-size: 5vh;
+  }
+
+  .subtitle {
+    font-size: 2vh;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+  }
+
+  .desktop-image {
+    display: none;
+  }
+
+  .mobile-image {
+    display: block;
     position: static;
     transform: none;
-    width: 90%;
+    width: 100%;
+    max-width: 100%;
     height: auto;
     margin: 2rem auto;
     object-fit: contain;
+  }
+
+  .cta {
+    width: 100%;
+    max-width: 300px;
   }
 }
 </style>
