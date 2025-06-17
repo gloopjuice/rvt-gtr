@@ -16,8 +16,8 @@ Priekš plugina
 
 **lai mājaslapu palaistu:**
 backenda setups
-     
-    cd laravelBackend
+```
+cd laravelBackend
 cp .env.example .env
 composer install
 php artisan key:generate
@@ -25,8 +25,7 @@ php artisan passport:keys
 php artisan passport:client --personal
 php artisan storage:link
 php artisan migrate --seed
-
-
+```
 env faila config:
 ```
 DB_CONNECTION=mysql
