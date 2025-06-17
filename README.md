@@ -17,27 +17,15 @@ Priekš plugina
 **lai mājaslapu palaistu:**
 backenda setups
      
-    cd laravelBackend    
-    composer update
-    cp .env.example .env 
+    cd laravelBackend
+cp .env.example .env
+composer install
+php artisan key:generate
+php artisan passport:keys
+php artisan passport:client --personal
+php artisan storage:link
+php artisan migrate --seed
 
-    composer install
-
-    php artisan key:generate   
-    php artisan passport:keys    
-    php artisan passport:client --personal    
-    php artisan storage:link    
-
-    composer require laravel/telescope --dev     
-
-    php artisan telescope:install     
-    php artisan migrate
-    
-    php artisan migrate:fresh --seed
-    
-    php artisan passport:client --personal
-
-composer require laravel/breeze --devphp artisan breeze:install
 
 env faila config:
 ```
